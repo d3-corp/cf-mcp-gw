@@ -4,7 +4,7 @@ Parent: D3S-69. Execution owner: administrator of the existing linear-harness de
 
 ## Current blocker
 
-On 2026-10-21 the system service reported inactive. The deployed configuration is root-owned and not readable by this session; noninteractive sudo requires a password. Do not infer repository registration from example configuration or restart the service without inspecting durable run/container state. No deployed configuration was edited.
+On 2026-10-21 a coarse service query briefly reported active, but the detailed follow-up reported activating/auto-restart with MainPID=0. Successful preflight and repository registration remain unverified. The deployed configuration is root-owned and not readable by this session; noninteractive sudo requires a password. Do not infer repository registration from example configuration or restart the service without inspecting durable run/container state. No deployed configuration was edited.
 
 ## Acceptance criteria
 

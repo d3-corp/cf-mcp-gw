@@ -10,6 +10,6 @@ Evidence: Cloudflare API lists existing mcp-portal with empty servers list and a
 
 Remaining: select/approve target hostname/account, IdP/group, clients/upstreams and budget; configure harness mapping/project/check IDs under D3S-70; verify 1Password access; execute pilot through reviewed follow-up tasks. Do not add harness:ready until dispatch prerequisites exist. Human review and Done remain pending.
 
-Additional verified blocker: linear-harness system service reports inactive; deployed configuration requires administrator access (sudo -n requires a password). No service start or configuration mutation attempted. D3S-70 is the assigned, parented Backlog onboarding task.
+Additional verified blocker: linear-harness briefly reported active, then activating/auto-restart with MainPID=0; preflight/registration remains unverified; deployed configuration requires administrator access (sudo -n requires a password). No service start or configuration mutation attempted. D3S-70 is the assigned, parented Backlog onboarding task.
 
 Exact next action: review PLAN.md and onboard d3-corp/cf-mcp-gw to the existing harness using docs/add-repository.md, with read-only doctor evidence and exact required checks. Then queue a bounded configuration/documentation task; trusted provisioning and live acceptance remain separate. This manual handoff does not prove a harness checkpoint or transfer files to another session.
