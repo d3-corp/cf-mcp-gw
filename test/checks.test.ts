@@ -100,3 +100,19 @@ test("inventory works without Git metadata, excludes dependencies and rejects sy
     rmSync(root, { recursive: true });
   }
 });
+
+test("reference links and JSON secret assignments cannot bypass the checks", () => {
+  assert.ok(
+    checkDocuments(
+      new Map([["README.md", "[reference][target]\n\n[target]: absent.md"]]),
+    ).length > 0,
+  );
+  const candidate = "a".repeat(30);
+  const content = JSON.stringify({
+    API_KEY: "op://vault/item/field",
+    CLIENT_SECRET: candidate,
+  });
+  const errors = checkSecrets(new Map([["config.json", content]]));
+  assert.equal(errors.length, 1);
+  assert.ok(!errors[0].includes(candidate));
+});

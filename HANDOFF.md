@@ -26,7 +26,7 @@ Branch: `checks/d3s-70-harness-verification`, based on the merged planning main.
 Added pinned npm tooling, TypeScript offline document/link/JSON checks, bounded
 credential-pattern checks and negative fixtures. No cloud code or deployment
 resources added. Required check IDs: `docs`, `secrets`, `tests`. Local Node.js 24
-typecheck, five tests, formatting/document checks and secret checks pass. The
+typecheck, six tests, formatting/document checks and secret checks pass. The
 checker inventory works without Git metadata, matching disposable verification.
 
 Review and merge the check PR before configuring main-based dispatch. D3S-70

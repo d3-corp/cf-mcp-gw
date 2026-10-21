@@ -24,16 +24,15 @@ export function checkSecrets(files: Map<string, string>): string[] {
       for (const [rule, pattern] of patterns)
         if (pattern.test(line))
           errors.push(`${path}:${index + 1}: ${rule} (value withheld)`);
-      const assignment = line.match(
-        /\b(?:[A-Z_]*(?:TOKEN|PASSWORD|SECRET|API_KEY))\s*[=:]\s*["']([^"']{8,})["']/i,
+      const assignments = line.matchAll(
+        /\b(?:[A-Z_]*(?:TOKEN|PASSWORD|SECRET|API_KEY))["']?\s*[=:]\s*["']([^"']{8,})["']/gi,
       );
-      if (
-        assignment &&
-        !/^(?:op:\/\/|<|\$\{|YOUR_|REPLACE_|EXAMPLE_)/i.test(assignment[1])
-      )
-        errors.push(
-          `${path}:${index + 1}: literal-secret-assignment (value withheld)`,
-        );
+      for (const assignment of assignments) {
+        if (!/^(?:op:\/\/|<|\$\{|YOUR_|REPLACE_|EXAMPLE_)/i.test(assignment[1]))
+          errors.push(
+            `${path}:${index + 1}: literal-secret-assignment (value withheld)`,
+          );
+      }
     }
   }
   return errors;
