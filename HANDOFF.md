@@ -13,3 +13,9 @@ Remaining: select/approve target hostname/account, IdP/group, clients/upstreams 
 Additional verified blocker: linear-harness briefly reported active, then activating/auto-restart with MainPID=0; preflight/registration remains unverified; deployed configuration requires administrator access (sudo -n requires a password). No service start or configuration mutation attempted. D3S-70 is the assigned, parented Backlog onboarding task.
 
 Exact next action: review PLAN.md and onboard d3-corp/cf-mcp-gw to the existing harness using docs/add-repository.md, with read-only doctor evidence and exact required checks. Then queue a bounded configuration/documentation task; trusted provisioning and live acceptance remain separate. This manual handoff does not prove a harness checkpoint or transfer files to another session.
+
+## New Linear workspace request — pending destination
+
+The user requested rerunning setup after switching Linear accounts. Revalidation through Orca and both available Linear MCP connections still exposes only the original d3space/D3S workspace. Destination workspace URL/team key and connector access have been requested. No replacement issues were created in the old workspace, and no protected harness configuration or 1Password credentials were changed.
+
+LINEAR-MIGRATION.md now records the rerun sequence, including destination metadata discovery, duplicate checks, parent/child recreation, PR/document relinking, destination-scoped 1Password credential verification, protected service configuration and separate durable state. This migration handoff is unsynced to the destination because it is not yet accessible. Next action: connect/identify the new workspace, then discover its IDs and recreate or reuse tasks before changing links or dispatching. Service administration remains a separately verified access dependency.
