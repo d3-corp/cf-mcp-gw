@@ -24,7 +24,7 @@ Cloudflare documents a single portal endpoint, per-user upstream OAuth, manual O
 
 - Local repository origin is `d3-corp/cf-mcp-gw`; initial remote HEAD/main lookup returned no refs. A bootstrap main branch has now been pushed. Coordinator repository permissions and mapping remain unverified.
 - Cloudflare connection lists one account, named d3. Existing portal `mcp-portal` uses `portal.d3adc3ii.cc`; its detail response has `servers: []`. The documentation MCP server is registered separately. Assess existing policy/DNS and reuse the portal only after owner confirmation; registration alone proves no working gateway. No cloud configuration has been changed.
-- Planning issue: D3S-69, assigned to d3tech. This workspace is not automatically issue-linked; use the explicit identifier.
+- Planning issue: D3S-69, assigned to d3tech, in Agent Workflow Pilot. The user reconfirmed d3space/D3S after an account switch; verified setup IDs are in LINEAR-MIGRATION.md. This workspace is not automatically issue-linked; use the explicit identifier.
 - 1Password CLI exists. No local 1Password MCP tools are exposed in this session. No credentials, Environment IDs, or vault access have been verified.
 - Actual target hostname, approved account, IdP/group, upstream URLs, clients, data classifications, retention, budget, and operational owner remain inputs for implementation. Do not infer these from available domains or account access.
 
