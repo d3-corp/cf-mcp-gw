@@ -51,16 +51,16 @@ The managed portal still needs runtime credential/token storage at Cloudflare. 1
 
 ## Verification and rollback
 
-| Gate | Required evidence before production rollout |
-| --- | --- |
-| Identity | Authorized pilot succeeds; outsider and removed-group user denied; MFA and applicable posture failures tested |
+| Gate               | Required evidence before production rollout                                                                                      |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Identity           | Authorized pilot succeeds; outsider and removed-group user denied; MFA and applicable posture failures tested                    |
 | Upstream isolation | Two users retain distinct provider permissions; revoked/expired tokens fail; shared admin access is disabled for sensitive tools |
-| Tool restriction | Approved read succeeds; disallowed tool absent and direct invocation denied; newly added upstream tool remains unapproved |
-| Protocol | Actual target client completes initialization, listing and invocation; reconnect and expiry behave correctly |
-| Bypass | Customer-owned direct origin rejects access; third-party residual risk or tested endpoint restrictions recorded |
-| Secrets | No values in Git, logs, task output or state artifacts; scoped service identity and rotation/revocation verified |
-| Audit | Authentication and tool-call evidence correlated without storing sensitive arguments; retention and log access approved |
-| Failure | Upstream outage, connector loss and credential expiry fail safely; recovery and rollback demonstrated |
+| Tool restriction   | Approved read succeeds; disallowed tool absent and direct invocation denied; newly added upstream tool remains unapproved        |
+| Protocol           | Actual target client completes initialization, listing and invocation; reconnect and expiry behave correctly                     |
+| Bypass             | Customer-owned direct origin rejects access; third-party residual risk or tested endpoint restrictions recorded                  |
+| Secrets            | No values in Git, logs, task output or state artifacts; scoped service identity and rotation/revocation verified                 |
+| Audit              | Authentication and tool-call evidence correlated without storing sensitive arguments; retention and log access approved          |
+| Failure            | Upstream outage, connector loss and credential expiry fail safely; recovery and rollback demonstrated                            |
 
 Rollback: restrict the pilot policy to stop new access, revoke active portal/provider sessions using the supported controls, disconnect the affected upstream and restore the previous reviewed configuration. Validate access is denied. Preserve logs and checkpoints; do not delete shared DNS, tunnels, policies or state databases. Any deletion requires a separately reviewed resource list.
 
