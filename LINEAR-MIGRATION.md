@@ -4,20 +4,20 @@ On 2026-10-21 the user confirmed that **d3space / D3S is the correct workspace**
 
 ## Verified setup
 
-| Resource | Current value |
-| --- | --- |
-| Workspace | d3space — `8828a093-3bc4-4cc9-a943-f139ade20a88` |
-| Team | D3S — `c23c72c5-c9b8-480e-8011-fb2faa80a86b` |
-| Project | Agent Workflow Pilot — `51aca7df-c980-4c9b-8a14-a3f0909e94d2` |
-| Planning issue | [D3S-69](https://linear.app/d3space/issue/D3S-69) — In Review |
-| Onboarding child | [D3S-70](https://linear.app/d3space/issue/D3S-70) — Backlog |
-| Todo state | `f0378f4e-38f5-48df-a1d3-91314ce083f6` |
-| In Progress state | `79adddd3-b79a-4756-8228-fafeb3050e15` |
-| In Review state | `8c749add-51ce-4d35-98c0-c07909db1f5d` |
-| Ready label | harness:ready — `21bd008d-b46d-4183-b5fb-e897a696e447` |
-| Requeue label | harness:requeue — `d39416a7-de85-4911-aade-d46c25955d10` |
-| Repository | Private d3-corp/cf-mcp-gw; pushed main branch |
-| Plan PR | https://github.com/d3-corp/cf-mcp-gw/pull/1 |
+| Resource          | Current value                                                 |
+| ----------------- | ------------------------------------------------------------- |
+| Workspace         | d3space — `8828a093-3bc4-4cc9-a943-f139ade20a88`              |
+| Team              | D3S — `c23c72c5-c9b8-480e-8011-fb2faa80a86b`                  |
+| Project           | Agent Workflow Pilot — `51aca7df-c980-4c9b-8a14-a3f0909e94d2` |
+| Planning issue    | [D3S-69](https://linear.app/d3space/issue/D3S-69) — In Review |
+| Onboarding child  | [D3S-70](https://linear.app/d3space/issue/D3S-70) — Backlog   |
+| Todo state        | `f0378f4e-38f5-48df-a1d3-91314ce083f6`                        |
+| In Progress state | `79adddd3-b79a-4756-8228-fafeb3050e15`                        |
+| In Review state   | `8c749add-51ce-4d35-98c0-c07909db1f5d`                        |
+| Ready label       | harness:ready — `21bd008d-b46d-4183-b5fb-e897a696e447`        |
+| Requeue label     | harness:requeue — `d39416a7-de85-4911-aade-d46c25955d10`      |
+| Repository        | Private d3-corp/cf-mcp-gw; pushed main branch                 |
+| Plan PR           | https://github.com/d3-corp/cf-mcp-gw/pull/1                   |
 
 Existing issue descriptions, handoffs, assignments and PR attachment were reread. Both tasks are placed in the existing Agent Workflow Pilot project, consistent with the harness onboarding workflow. No ready label is applied and no task is dispatched by this revalidation.
 

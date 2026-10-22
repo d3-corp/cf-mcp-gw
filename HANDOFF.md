@@ -20,6 +20,20 @@ The user confirmed d3space/D3S is correct. Workspace/team UUIDs match the existi
 
 The previous pending-destination assumption is resolved. Remaining next action is D3S-70 administrator preflight: inspect protected coordinator state/configuration and startup failures, verify the 1Password-supplied Linear credential and repository/project/check mappings, then queue only after gates pass. Latest observed restart count: 816. No deployed harness, credential or Cloudflare configuration changed; no successful harness execution is claimed.
 
+## Harness verification implementation
+
+Branch: `checks/d3s-70-harness-verification`, based on the merged planning main.
+Added pinned npm tooling, TypeScript offline document/link/JSON checks, bounded
+credential-pattern checks and negative fixtures. No cloud code or deployment
+resources added. Required check IDs: `docs`, `secrets`, `tests`. Local Node.js 24
+typecheck, six tests, formatting/document checks and secret checks pass. The
+checker inventory works without Git metadata, matching disposable verification.
+
+Review and merge the check PR before configuring main-based dispatch. D3S-70
+remains responsible for protected deployment registration, permissions/preflight
+and a live coordinator pilot. This manual branch is not a harness-run checkpoint.
+No credentials, tenant records or local token files are included.
+
 ## Deployment configuration repair — 2026-10-22
 
 Re-read D3S-70 and latest handoffs through One CLI. Other sessions have added PR #2 documentation checks and repository-label enforcement work; those handoffs remain authoritative for their changes. No claim that this older planning checkout includes those changes.
