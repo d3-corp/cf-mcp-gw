@@ -33,3 +33,17 @@ Review and merge the check PR before configuring main-based dispatch. D3S-70
 remains responsible for protected deployment registration, permissions/preflight
 and a live coordinator pilot. This manual branch is not a harness-run checkpoint.
 No credentials, tenant records or local token files are included.
+
+## Deployment configuration repair — 2026-10-22
+
+Re-read D3S-70 and latest handoffs through One CLI. Other sessions have added PR #2 documentation checks and repository-label enforcement work; those handoffs remain authoritative for their changes. No claim that this older planning checkout includes those changes.
+
+Administrator access now works. Verified the deployed configuration already contains the correct D3S team, Agent Workflow Pilot project, and cf-mcp-gw mapping. The service was inactive/dead before edits. Backed up configuration as config.json.before-schema-fix-20261021T172902Z (root-only), normalized two invalid tests check fields from command to argv (cf-mcp-gw and action1-dashboard), and set root:linear-harness ownership with mode 0640 so the configured service identity can read it. Both invalid fields blocked validation of the shared configuration; other mapping values were preserved.
+
+Verification: loadConfig succeeds as linear-harness. Read-only status succeeds with no lease or pending writes; existing runs are review/review/blocked. Container listing shows no active coding worker. Service remains stopped; no queue, credential, state database or cloud resource mutation. No Environment contents were read. A rate-limit killswitch file exists, but its current expiry and credential availability are unverified.
+
+Remaining: enable/connect the 1Password Environments MCP Server for names-only credential setup/preflight; verify service authentication and remote repository permissions; review PR #2 and register its exact documentation checks instead of assuming generic typecheck/tests fit main. Do not start dispatch from this configuration repair alone. GitHub is not connected through One CLI, so this handoff has not been pushed or attached as a new PR update in this turn. Next action is credential/check-registration preflight under D3S-70; human review controls merge and Done.
+
+## PR #2 review request — 2026-10-23
+
+Reviewed preserved candidate eff6c534466fd25b46d0b8458a9a7a172c21e162 against local base 2233842; no blocking findings in that candidate. Detailed review is /tmp/cf-pr2-review.md. Current GitHub PR head/approval/merge/main cannot be verified because One CLI exposes only Linear connections. GitHub connection was requested. Main verification is explicitly gated on human approval and merge; no commands rerun and no merge/approval attempted. Historical isolated candidate results were inspected but are not claimed as fresh main verification. Next: connect GitHub, reconcile current PR revision, then execute the five requested commands sequentially against exact merged main in the production isolated verifier. Existing HANDOFF.md edits preserved.
