@@ -22,3 +22,15 @@ Prepare declarative pilot configuration and a detailed operator runbook from PLA
 ## Handoff requirements
 
 Record deployment config version, mapping/project/check IDs, service status, run ID if dispatched, branch/commit/push read-back, independent checks, draft PR, blockers and exact next action. Human review controls merge and Done. If access remains unavailable, leave this task in Backlog and record the missing administrator step.
+
+## Prepared verification checks
+
+The check implementation is proposed on `checks/d3s-70-harness-verification`.
+Review and merge that PR before using these commands against `main`. Exact
+required IDs are `docs`, `secrets`, and `tests`; commands and limitations are
+listed in [Offline harness checks](README.md#offline-harness-checks). They need
+Node.js 24 and registry.npmjs.org only. They do not use cloud credentials.
+
+Create/apply `repo:cf-mcp-gw` as the issue's only `repo:*` label, matching its
+harness block. Mapping preparation does not establish deployed registration.
+Do not queue until coordinator configuration, permissions and preflight pass.
