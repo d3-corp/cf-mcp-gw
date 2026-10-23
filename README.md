@@ -14,17 +14,18 @@ Planning issue: https://linear.app/d3space/issue/D3S-69
 Use Node.js 24 and `npm ci --ignore-scripts`. No Cloudflare, 1Password or tenant
 credentials are needed. Required administrator-configured check IDs:
 
-| ID        | Command after checkout                                 | Purpose                                                                                     |
-| --------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| `docs`    | `npm ci --ignore-scripts && npm run check:docs`        | Prettier formatting, Markdown local file/heading links, external URL syntax and JSON syntax |
-| `secrets` | `npm ci --ignore-scripts && npm run check:secrets`     | Common credential patterns, literal secret assignments and sensitive filenames              |
-| `tests`   | `npm ci --ignore-scripts && npm run check && npm test` | TypeScript checks and positive/negative verifier fixtures                                   |
+| ID          | Command after checkout                             | Purpose                                                      |
+| ----------- | -------------------------------------------------- | ------------------------------------------------------------ |
+| `typecheck` | `npm ci --ignore-scripts && npm run check`         | TypeScript validation                                        |
+| `docs`      | `npm ci --ignore-scripts && npm run check:docs`    | Formatting, local links, external URL syntax and JSON syntax |
+| `secrets`   | `npm ci --ignore-scripts && npm run check:secrets` | Credential patterns and sensitive filenames                  |
+| `tests`     | `npm ci --ignore-scripts && npm test`              | Positive/negative verifier fixtures                          |
 
 Apply exactly one `repo:cf-mcp-gw` label, use Agent Workflow Pilot, and select all
-three check IDs in the issue's harness block **after** the deployed mapping and
-preflight are verified. Keep the coordinating parent unqueued and create one
-repository-specific child per executable task. Commands come from administrator
-configuration, not issue text.
+four check IDs after deployed mapping and preflight are verified. The coordinator
+owns dispatch and publication; commands come from administrator configuration.
+See the [pilot operator runbook](HARNESS-ONBOARDING.md#bounded-pilot-configuration)
+and [review template](pilot.example.json). Neither authorizes cloud deployment.
 
 Checks inspect files in the working directory, excluding `.git`, `node_modules`
 and `coverage`. No Git metadata is needed in the disposable verification copy.
@@ -34,8 +35,8 @@ Local links and Markdown heading fragments must resolve inside that inventory.
 Raw HTML links and explicit HTML anchors are outside this Markdown checker;
 use Markdown links/headings. External URLs are syntax-checked only and never
 fetched, so this gate does not prove remote link availability. JSON files are
-parsed for syntax; no gateway configuration schema exists yet. Define and test
-that schema when adding declarative gateway configuration.
+parsed for syntax; no gateway configuration schema exists yet. The pilot example is a review template only; define and test a provider schema
+before implementing an apply path.
 
 The secret check catches common GitHub/1Password/AWS tokens, private-key headers,
 bearer tokens and quoted literal secret assignments; use `op://` references or
