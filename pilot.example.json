@@ -1,0 +1,44 @@
+{
+  "templateVersion": 1,
+  "mode": "review-only",
+  "accountId": "<CONFIRM_CLOUDFLARE_ACCOUNT_ID>",
+  "hostname": "<CONFIRM_PILOT_HOSTNAME>",
+  "portal": {
+    "selection": "<CONFIRM_REUSE_OR_CREATE>",
+    "existingPortalId": "<CONFIRM_IF_REUSING>"
+  },
+  "identity": {
+    "providerId": "<CONFIRM_IDP_ID>",
+    "pilotGroupId": "<CONFIRM_PILOT_GROUP_ID>",
+    "requireMfa": true,
+    "posturePolicy": "<CONFIRM_APPLICABLE_POSTURE_REQUIREMENTS>"
+  },
+  "upstreams": [
+    {
+      "name": "<CONFIRM_UPSTREAM_NAME>",
+      "url": "<CONFIRM_UPSTREAM_HTTPS_URL>",
+      "owner": "<CONFIRM_UPSTREAM_OWNER>",
+      "transport": "<CONFIRM_REMOTE_TRANSPORT>",
+      "authentication": "per-user-oauth",
+      "oauthClientId": "<CONFIRM_CLIENT_ID_IF_REQUIRED>",
+      "oauthScopes": ["<CONFIRM_MINIMUM_OAUTH_SCOPE>"],
+      "permittedTools": ["<CONFIRM_EXACT_READ_ONLY_TOOL_NAME>"],
+      "dataClassification": "<CONFIRM_DATA_CLASSIFICATION>",
+      "directAccessBoundary": "<CONFIRM_ORIGIN_AUTH_OR_ENDPOINT_EGRESS_AND_RESIDUAL_RISK>"
+    }
+  ],
+  "acceptance": {
+    "client": "<CONFIRM_CLIENT_AND_VERSION>",
+    "authorizedUser": "<CONFIRM_AUTHORIZED_TEST_IDENTITY>",
+    "deniedUser": "<CONFIRM_OUTSIDER_TEST_IDENTITY>",
+    "readOnlyTest": "<CONFIRM_HARMLESS_TOOL_AND_SYNTHETIC_INPUT>"
+  },
+  "operations": {
+    "owner": "<CONFIRM_OPERATIONAL_OWNER>",
+    "auditRetention": "<CONFIRM_RETENTION_AND_LOG_ACCESS>",
+    "budgetAndEntitlementApproval": "<CONFIRM_APPROVAL_RECORD>",
+    "observationWindow": "<CONFIRM_PILOT_OBSERVATION_WINDOW>",
+    "gatewayInspection": "<CONFIRM_REQUIRED_OR_NOT_REQUIRED>",
+    "privateRouting": "<CONFIRM_REQUIRED_OR_NOT_REQUIRED>"
+  }
+}
