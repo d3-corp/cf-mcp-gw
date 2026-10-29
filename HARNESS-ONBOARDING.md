@@ -1,5 +1,9 @@
 # Harness onboarding task
 
+> Historical note: this file describes the earlier Agent Workflow Pilot /
+> linear-harness route. Current work for this repository uses the Contract Master
+> workflow ([AGENTS.md](AGENTS.md)).
+
 Parent: D3S-69. Execution owner: administrator of the existing linear-harness deployment. Target: private GitHub repository `d3-corp/cf-mcp-gw`, base `main`, proposed repository key `cf-mcp-gw`. This task prepares dispatch; it does not authorize a cloud deployment.
 
 ## Historical onboarding observation

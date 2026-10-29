@@ -21,11 +21,13 @@ credentials are needed. Required administrator-configured check IDs:
 | `secrets`   | `npm ci --ignore-scripts && npm run check:secrets` | Credential patterns and sensitive filenames                  |
 | `tests`     | `npm ci --ignore-scripts && npm test`              | Positive/negative verifier fixtures                          |
 
-Apply exactly one `repo:cf-mcp-gw` label, use Agent Workflow Pilot, and select all
-four check IDs after deployed mapping and preflight are verified. The coordinator
-owns dispatch and publication; commands come from administrator configuration.
-See the [pilot operator runbook](HARNESS-ONBOARDING.md#bounded-pilot-configuration)
-and [review template](pilot.example.json). Neither authorizes cloud deployment.
+Work for this repository is filed in the Cloudflare MCP Gateway Linear project
+through the Contract Master workflow; see [AGENTS.md](AGENTS.md). Apply exactly one
+`repo:cf-mcp-gw` label and a complete `contract-master` block that selects all four
+check IDs. The coordinator owns dispatch and publication; commands come from
+administrator configuration. See the
+[pilot operator runbook](HARNESS-ONBOARDING.md#bounded-pilot-configuration) and
+[review template](pilot.example.json). Neither authorizes cloud deployment.
 
 Checks inspect files in the working directory, excluding `.git`, `node_modules`
 and `coverage`. No Git metadata is needed in the disposable verification copy.
