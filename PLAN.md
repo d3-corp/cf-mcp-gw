@@ -6,6 +6,8 @@ Prepared 2026-10-21. Scope: design and execution plan; cloud deployment is a sub
 
 Use Cloudflare One MCP server portals as the initial managed gateway. Prefer this to maintaining a custom proxy Worker unless a pilot demonstrates a missing requirement. Clients connect to a dedicated pilot hostname, authenticate through Access, and use a restricted set of remote MCP tools. Require each user to authenticate to OAuth upstreams; avoid shared administrative authority for business data.
 
+Non-interactive clients such as agents and automation authenticate to the portal with a Cloudflare Access service token, sending the CF-Access-Client-Id and CF-Access-Client-Secret request headers; a Service Auth policy on the portal's Access application admits only that service token. Per-user OAuth to the upstream servers is unchanged for these clients.
+
 ```mermaid
 flowchart LR
   C[MCP client] --> A[Access login and pilot policy]
@@ -47,6 +49,8 @@ For attended Environment setup, enable the local 1Password MCP server and use na
 
 A trusted provisioning process may resolve `op://` references with `op run` for the duration of a subprocess. Do not echo environment variables, request bodies, tokens or OAuth callbacks. Check response status and resource IDs instead. Disable HTTP debug tracing. [1Password secret references](https://www.1password.dev/cli/secret-references), [service accounts](https://www.1password.dev/service-accounts).
 
+For non-interactive access, the portal service token's client ID and client secret are held in the 1Password item recorded in Linear D3S-118 and are resolved only at runtime by the client or by a trusted provisioning process; they are never written to Git, Linear, command lines or logs, and the item records the token's owner, expiry and rotation date. To rotate the service token, create a new service token, update 1Password, validate a harmless read-only tool call, revoke the old token, then confirm the old token is rejected. A service token is a shared machine identity, so tool calls made with it are not attributable to a person; limit it to approved tools.
+
 The managed portal still needs runtime credential/token storage at Cloudflare. 1Password governs administrative credential custody and rotation; it does not replace the portal's OAuth token lifecycle. If the requirement forbids Cloudflare custody, revisit the architecture before deployment. On rotation, update 1Password and the consuming configuration, validate a harmless request, revoke the previous credential, then confirm its rejection. Reauthenticate user OAuth through the provider rather than exporting refresh tokens into repository files.
 
 ## Verification and rollback
@@ -62,7 +66,7 @@ The managed portal still needs runtime credential/token storage at Cloudflare. 1
 | Audit              | Authentication and tool-call evidence correlated without storing sensitive arguments; retention and log access approved          |
 | Failure            | Upstream outage, connector loss and credential expiry fail safely; recovery and rollback demonstrated                            |
 
-Rollback: restrict the pilot policy to stop new access, revoke active portal/provider sessions using the supported controls, disconnect the affected upstream and restore the previous reviewed configuration. Validate access is denied. Preserve logs and checkpoints; do not delete shared DNS, tunnels, policies or state databases. Any deletion requires a separately reviewed resource list.
+Rollback: restrict the pilot policy to stop new access, revoke active portal/provider sessions using the supported controls, disconnect the affected upstream and restore the previous reviewed configuration. Validate access is denied. For the service-token path, revoke the service token and remove the Service Auth policy, then confirm requests presenting the token are denied. Preserve logs and checkpoints; do not delete shared DNS, tunnels, policies or state databases. Any deletion requires a separately reviewed resource list.
 
 ## Linear harness contract
 
