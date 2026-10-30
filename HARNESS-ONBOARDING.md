@@ -59,21 +59,22 @@ technical deployment interlock. Every `<CONFIRM_...>` value is unresolved and
 must block application. Do not treat the listed account, portal or domain in
 [PLAN.md](PLAN.md) as approval to select it.
 
-| Fields                            | Required operator decision                                                                                                                                                                                            |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `accountId`, `hostname`, `portal` | Explicit account/domain ownership approval; inspect existing portal, DNS, TLS and Access policies; confirm reuse or creation and record resource IDs. Mark existing portal ID inapplicable if creating.               |
-| `identity`                        | Approved IdP and pilot group IDs, IdP MFA and applicable posture policy. Portal authorization alone does not supply independent MFA, purpose justification or temporary auth.                                         |
-| `upstreams`                       | Start with one reviewed URL and owner, supported transport, per-user OAuth client/scopes, exact permitted read-only tool names and data classification. Confirm callbacks and consent in the chosen client.           |
-| `directAccessBoundary`            | Declare customer-origin authorization/private routing or third-party endpoint egress enforcement and residual direct-access exposure.                                                                                 |
-| `acceptance`                      | Real client/version, separate approved/outsider test identities and harmless synthetic read input; use restricted evidence storage for personal identifiers.                                                          |
-| `operations`                      | Owner, retention/log access, budget/entitlement signoff, observation window, inspection and private-routing decisions. Gateway inspection requires Streamable HTTP; private origins require tested connectors/routes. |
+| Fields                            | Required operator decision                                                                                                                                                                                                                                                                       |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `accountId`, `hostname`, `portal` | Explicit account/domain ownership approval; inspect existing portal, DNS, TLS and Access policies; confirm reuse or creation and record resource IDs. Mark existing portal ID inapplicable if creating.                                                                                          |
+| `identity`                        | The approved Access service token (owner, expiry, rotation date) and its single Service Auth policy on the portal and each linked server; no identity-provider Allow policy or pilot group. Portal authorization does not supply independent MFA, purpose justification or temporary auth.       |
+| `upstreams`                       | Start with one reviewed URL and owner, supported transport, a non-OAuth admin credential (bearer token or custom headers) or private unauthenticated access, Require user auth off, exact permitted read-only tool names and data classification; servers needing per-user OAuth are not linked. |
+| `directAccessBoundary`            | Declare customer-origin authorization/private routing or third-party endpoint egress enforcement and residual direct-access exposure.                                                                                                                                                            |
+| `acceptance`                      | Real client/version, the service-token client, and no-token, wrong-token, revoked-token and OAuth sign-in attempts that must each be denied, plus harmless synthetic read input; use restricted evidence storage for personal identifiers.                                                       |
+| `operations`                      | Owner, retention/log access, budget/entitlement signoff, observation window, inspection and private-routing decisions. Gateway inspection requires Streamable HTTP; private origins require tested connectors/routes.                                                                            |
 
-Never place tokens, OAuth secrets, refresh tokens or service-account bootstrap
-credentials in this file. A trusted operator separately selects least-privilege
-1Password scopes and approved secret references when needed. Keep coordinator,
-provisioning and upstream-registration authority separate. Cloudflare retains
-runtime OAuth token custody; if that custody is unacceptable, stop and revisit
-the architecture. Available accounts or domains confer no approval.
+Never place tokens, service-token secrets, upstream admin credentials or
+service-account bootstrap credentials in this file. A trusted operator separately
+selects least-privilege 1Password scopes and approved secret references when
+needed. Keep coordinator, provisioning and upstream-registration authority
+separate. Cloudflare retains runtime custody of the upstream admin credentials; if
+that custody is unacceptable, stop and revisit the architecture. Available
+accounts or domains confer no approval.
 
 ## Operator sequence and approval gates
 
@@ -101,7 +102,8 @@ the architecture. Available accounts or domains confer no approval.
 4. **Run offline verification.** Run each exact registered command above against
    the candidate. `docs` checks JSON syntax, not field semantics or Cloudflare
    compatibility. Independently review unresolved placeholders, HTTPS upstream,
-   exact allowlist, per-user auth and policy decisions. Before any application,
+   exact allowlist, Require user auth off on every linked server and policy
+   decisions. Before any application,
    the trusted provisioner must validate the translated configuration with its
    actual provider schema and review the resulting resource diff. Offline
    success does not establish `loadConfig`, authentication or live acceptance.
@@ -119,18 +121,18 @@ the architecture. Available accounts or domains confer no approval.
 
 For each case record timestamp, configuration revision, resource IDs, client
 version, expected/actual outcome and sanitized correlation ID. Record pass/fail
-without tokens, OAuth callbacks, sensitive tool arguments or response data.
+without tokens, service-token headers, sensitive tool arguments or response data.
 
-| Case                     | Required evidence from trusted operator                                                                                                                                                     |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Authorized flow          | Pilot member completes Access/IdP MFA, client initialization, listing and approved harmless read through the portal.                                                                        |
-| Denied identity          | Outsider, removed-group user and applicable MFA/posture failure cannot reach/invoke tools; check existing sessions after revocation.                                                        |
-| Provider isolation       | Two users retain distinct upstream permissions; revoked/expired OAuth fails; no shared administrative authority for sensitive tools.                                                        |
-| Tool restrictions        | Approved read works, disallowed tool is absent and explicit invocation is denied; newly introduced tool stays unapproved.                                                                   |
-| Client/session lifecycle | Consent/callbacks, reconnect, session expiry and token revocation behave as approved in the actual client.                                                                                  |
-| Direct-upstream boundary | Customer-owned origin rejects unauthorized direct access or is private. For public third parties test managed endpoint egress and provider permissions; record any remaining direct access. |
-| Failure and audit        | Upstream outage, connector loss and credential expiry fail safely; audit correlation, retention and log access match approvals.                                                             |
-| Rotation                 | Update the scoped credential in 1Password and its consumer, validate a harmless request, revoke the old credential and confirm rejection; reauthenticate user OAuth at the provider.        |
+| Case                     | Required evidence from trusted operator                                                                                                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Authorized flow          | A client presenting the service token completes initialization, listing and the approved harmless read through the portal.                                                                            |
+| Denied identity          | Requests with no token, a wrong token or a revoked token, and an OAuth sign-in attempt (dynamic client registration plus browser sign-in), are each denied; check existing sessions after revocation. |
+| Provider isolation       | Calls run as the shared admin credential; only approved tools are reachable; revoked/expired upstream credentials fail.                                                                               |
+| Tool restrictions        | Approved read works, disallowed tool is absent and explicit invocation is denied; newly introduced tool stays unapproved.                                                                             |
+| Client/session lifecycle | Reconnect, session expiry and service-token revocation behave as approved in the actual client (no consent/callbacks).                                                                                |
+| Direct-upstream boundary | Customer-owned origin rejects unauthorized direct access or is private. For public third parties test managed endpoint egress and provider permissions; record any remaining direct access.           |
+| Failure and audit        | Upstream outage, connector loss and credential expiry fail safely; audit correlation, retention and log access match approvals.                                                                       |
+| Rotation                 | Update the scoped credential in 1Password and its consumer, validate a harmless request, revoke the old credential and confirm rejection.                                                             |
 
 Portal visibility and tool filtering do not prevent direct connections to public
 upstreams. A user with provider permissions may bypass the portal unless tested
@@ -143,8 +145,8 @@ Gateway inspection must be tested with synthetic DLP inputs on supported transpo
 
 The trusted operator captures the prior reviewed configuration and resource IDs
 before applying. On unauthorized access, tool expansion, auth failure or unsafe
-failure behavior, restrict the pilot Access policy, revoke active portal/provider
-sessions using supported controls, disconnect the affected upstream and restore
+failure behavior, restrict the pilot Access policy, revoke the service token and
+active portal sessions using supported controls, disconnect the affected upstream and restore
 the prior reviewed configuration. Verify access is denied and recovery works.
 Preserve audit logs, checkpoints and harness state. Do not delete shared DNS,
 tunnels, policies or databases; deletion requires a separately reviewed list.
