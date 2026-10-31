@@ -1,5 +1,5 @@
 {
-  "templateVersion": 1,
+  "templateVersion": 2,
   "mode": "review-only",
   "accountId": "<CONFIRM_CLOUDFLARE_ACCOUNT_ID>",
   "hostname": "<CONFIRM_PILOT_HOSTNAME>",
@@ -8,10 +8,13 @@
     "existingPortalId": "<CONFIRM_IF_REUSING>"
   },
   "identity": {
-    "providerId": "<CONFIRM_IDP_ID>",
-    "pilotGroupId": "<CONFIRM_PILOT_GROUP_ID>",
-    "requireMfa": true,
-    "posturePolicy": "<CONFIRM_APPLICABLE_POSTURE_REQUIREMENTS>"
+    "method": "access-service-token",
+    "serviceTokenOwner": "<CONFIRM_SERVICE_TOKEN_OWNER>",
+    "serviceTokenExpiry": "<CONFIRM_SERVICE_TOKEN_EXPIRY>",
+    "serviceTokenRotationDate": "<CONFIRM_SERVICE_TOKEN_ROTATION_DATE>",
+    "portalPolicy": "single-service-auth-policy",
+    "linkedServerPolicy": "single-service-auth-policy",
+    "identityProviderAllowPolicy": false
   },
   "upstreams": [
     {
@@ -19,9 +22,8 @@
       "url": "<CONFIRM_UPSTREAM_HTTPS_URL>",
       "owner": "<CONFIRM_UPSTREAM_OWNER>",
       "transport": "<CONFIRM_REMOTE_TRANSPORT>",
-      "authentication": "per-user-oauth",
-      "oauthClientId": "<CONFIRM_CLIENT_ID_IF_REQUIRED>",
-      "oauthScopes": ["<CONFIRM_MINIMUM_OAUTH_SCOPE>"],
+      "authentication": "<CONFIRM_ADMIN_BEARER_TOKEN_OR_CUSTOM_HEADERS_OR_PRIVATE_UNAUTHENTICATED>",
+      "requireUserAuth": false,
       "permittedTools": ["<CONFIRM_EXACT_READ_ONLY_TOOL_NAME>"],
       "dataClassification": "<CONFIRM_DATA_CLASSIFICATION>",
       "directAccessBoundary": "<CONFIRM_ORIGIN_AUTH_OR_ENDPOINT_EGRESS_AND_RESIDUAL_RISK>"
@@ -29,8 +31,13 @@
   ],
   "acceptance": {
     "client": "<CONFIRM_CLIENT_AND_VERSION>",
-    "authorizedUser": "<CONFIRM_AUTHORIZED_TEST_IDENTITY>",
-    "deniedUser": "<CONFIRM_OUTSIDER_TEST_IDENTITY>",
+    "serviceTokenClient": "<CONFIRM_SERVICE_TOKEN_CLIENT_AND_HOST>",
+    "deniedCases": [
+      "no-token",
+      "wrong-token",
+      "revoked-token",
+      "oauth-sign-in"
+    ],
     "readOnlyTest": "<CONFIRM_HARMLESS_TOOL_AND_SYNTHETIC_INPUT>"
   },
   "operations": {
